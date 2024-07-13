@@ -1,6 +1,7 @@
 import pandas as pd
 import datetime as dt
-import zipfile
+import requests
+import ast
 from io import BytesIO
 from bselib.logger import *
 from bselib.libutil import *
@@ -72,7 +73,7 @@ def equity_bhav_copy(trade_date: str):
 
 def derivative_bhav_copy(trade_date: str):
     """
-    get new CM-UDiFF Common Bhavcopy Final as per the traded date provided
+    get new derivative UDiFF Bhavcopy Final as per the traded date provided
     :param trade_date:
     :return: pandas dataframe
     """
@@ -90,10 +91,30 @@ def derivative_bhav_copy(trade_date: str):
     return bhav_df
 
 
-if __name__ == '__main__':
+def stock_info(symbol: str):
+    """
+    get new derivative UDiFF Bhavcopy Final as per the traded date provided
+    :symbol : stock symbol eg.'SBIN', 'TCS'
+    :return: python dictionary
+    """
+    security_code = get_scode_from_symbol(symbol)
+    _url = f'https://api.bseindia.com/BseIndiaAPI/api/ComHeadernew/w?quotetype=EQ&scripcode={security_code}&seriesid='
+    try:
+        data_obj = requests.request("GET", _url, headers=header)
+        if data_obj.status_code != 200:
+            raise NSEdataNotFound(f" bse stock information is not available for {symbol}")
+        data_str = data_obj.text
+        data_dict = ast.literal_eval(data_str)
+    except Exception as e:
+        raise NSEdataNotFound(f" Resource not available please try after 10 minutes: {e}")
+    return data_dict
+
+
+# if __name__ == '__main__':
     # data = historical_stock_data(symbol='TCS', from_date='01-01-2004', to_date='01-07-2024')
     # data = historical_stock_data(symbol='TCS', period='1W')
     # data = equity_bhav_copy(trade_date='01-07-2024')
-    data = derivative_bhav_copy(trade_date='01-07-2024')
-    print(data)
-    print(data.columns)
+    # data = derivative_bhav_copy(trade_date='01-07-2024')
+    # data = stock_info(symbol='TCS')
+    # print(data)
+    # print(data.columns)

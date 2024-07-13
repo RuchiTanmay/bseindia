@@ -1,10 +1,12 @@
 import os
 from datetime import datetime, timedelta, date
-import requests
+from bselib.logger import *
 import numpy as np
 from dateutil.relativedelta import relativedelta
 import pandas as pd
 from bselib.constants import *
+
+logger = mylogger(logging.getLogger(__name__))
 
 header = {
     "Connection": "keep-alive",
@@ -14,7 +16,8 @@ header = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
                   "Chrome/111.0.0.0 Safari/537.36",
     "Sec-Fetch-User": "?1", "Accept": "*/*", "Sec-Fetch-Site": "none", "Sec-Fetch-Mode": "navigate",
-    "Accept-Encoding": "gzip, deflate, br", "Accept-Language": "en-US,en;q=0.9,hi;q=0.8"
+    "Accept-Encoding": "gzip, deflate, br", "Accept-Language": "en-US,en;q=0.9,hi;q=0.8",
+    "Referer": "https://www.bseindia.com/"
     }
 
 
@@ -70,55 +73,57 @@ def derive_from_and_to_date(from_date: str = None, to_date: str = None, period: 
     return from_date, today
 
 
-def cleaning_column_name(col:list):
+def cleaning_column_name(col: list):
     unwanted_str_list = ['FH_', 'EOD_', 'HIT_']
-    new_col=col
+    new_col = col
     for unwanted in unwanted_str_list:
         new_col = [name.replace(f'{unwanted}', '') for name in new_col]
     return new_col
 
 
-def cleaning_nse_symbol(symbol):
-    symbol = symbol.replace('&','%26')  # URL Parse for Stocks Like M&M Finance
-    return symbol.upper()
-
-
-def nse_urlfetch(url):
-    r_session = requests.session()
-    nse_live = r_session.get("http://nseindia.com", headers=header)
-    return r_session.get(url, headers=header)
+def convert_date_format(date_str, in_format, out_format):
+    date_obj = datetime.strptime(date_str, in_format)
+    return date_obj.strftime(out_format)
 
 
 def get_bselib_path():
     """
-    Extract isap file path
+    Extract bselib installed path
     """
     mydir = os.getcwd()
     return mydir.split(r'\bselib', 1)[0]
 
 
-def trading_holiday_calendar():
-    data_df = pd.DataFrame(columns=['Product', 'tradingDate', 'weekDay', 'description', 'Sr_no'])
-    url = "https://www.nseindia.com/api/holiday-master?type=trading"
-    try:
-        data_dict = nse_urlfetch(url).json()
-    except Exception as e:
-        raise CalenderNotFound(" Calender data Not found try after some time ")
-    for prod in data_dict:
-        h_df = pd.DataFrame(data_dict[prod])
-        h_df['Product'] = prod
-        data_df = pd.concat([data_df, h_df])
-    condition = [data_df['Product'] == 'CBM', data_df['Product'] == 'CD', data_df['Product'] == 'CM',
-                 data_df['Product'] == 'CMOT', data_df['Product'] == 'COM', data_df['Product'] == 'FO',
-                 data_df['Product'] == 'IRD', data_df['Product'] == 'MF', data_df['Product'] == 'NDM',
-                 data_df['Product'] == 'NTRP', data_df['Product'] == 'SLBS']
-    value = ['Corporate Bonds', 'Currency Derivatives', 'Equities', 'CMOT', 'Commodity Derivatives', 'Equity Derivatives',
-             'Interest Rate Derivatives', 'Mutual Funds', 'New Debt Segment', 'Negotiated Trade Reporting Platform',
-             'Securities Lending & Borrowing Schemes']
-    data_df['Product'] = np.select(condition, value)
+def all_listed_securities():
+    """
+    Get all securities listed on bse as on JULY-2024
+    :return: DataFrame of all listed securities
+    """
+    logger.info('Get all securities as of JULY-2024')
+    path = get_bselib_path() + "\\bselib\\bselib\\bse_security_list.csv"
+    data_df = pd.read_csv(path, delimiter=',')
     return data_df
 
 
+def get_scode_from_symbol(symbol):
+    """
+    get security code from symbol
+    :param symbol:
+    :return:
+    """
+    df = all_listed_securities()
+    return df[df['symbol'] == symbol]['security_code'].values[0]
+
+
+def convert_date_format_1(in_date: str):
+    """
+    convert date string to date format (01%2F07%2F2022)
+    :param in_date:
+    :return:
+    """
+    return in_date[0:1] + '%2F' + in_date[2:3] + '%2F' + in_date[4:7]
+
+
 # if __name__ == '__main__':
-#     # data = derive_from_and_to_date('6M')
-#     print(trading_holiday_calendar())
+    # data = derive_from_and_to_date('6M')
+    # print(all_listed_securities())

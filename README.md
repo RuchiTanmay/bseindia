@@ -1,6 +1,6 @@
-# BSElib 1.0
+# BSElib 0.1
 
-Python Library to get publicly available data on new NSE india website.
+Python Library to get publicly available data on new BSE india website.
 
 Release Notes
 * Compatible and Tested with Python 3.9 and above
@@ -29,6 +29,10 @@ Upgrade
 
 ### bselib
 * trading_holiday_calendar
+* historical_stock_data
+* equity_bhav_copy
+* derivative_bhav_copy
+* stock_info
 
 Example :
 
@@ -36,64 +40,20 @@ import bselib
 
 data = bselib.trading_holiday_calendar()
 
-### Capital Market
-* price_volume_and_deliverable_position_data 
-* price_volume_data
-* deliverable_position_data
-* bulk_deal_data
-* block_deals_data
-* short_selling_data
-* bhav_copy_with_delivery
-* bhav_copy_equities
-* equity_list
-* fno_equity_list
-* nifty50_equity_list
-* india_vix_data
-* index_data
-* market_watch_all_indices
-* fii_dii_trading_activity
 
-Example : 
+Example :
 
-from bselib import capital_market 
-
-data = capital_market.price_volume_and_deliverable_position_data(symbol='SBIN', from_date='01-06-2023', to_date='10-06-2023')
+data = bselib.get_historical_stock_data(symbol='SBIN', from_date='01-06-2023', to_date='10-06-2023')
                                             
 OR
 
-data = capital_market.price_volume_and_deliverable_position_data(symbol='SBIN', period='1M')
+data = bselib.get_historical_stock_data(symbol='SBIN', period='1M')
+
+Example :
+
+data = bselib.equity_bhav_copy(trade_date='01-07-2024')
 
 More functions will be available in future releases...
-
-### Derivative
-* future_price_volume_data
-* option_price_volume_data
-* fno_bhav_copy
-* participant_wise_open_interest
-* participant_wise_trading_volume
-* expiry_dates_future
-* expiry_dates_option_index
-* bse_live_option_chain
-* fii_derivatives_statistics
-
-Example : 
-
-from bselib import derivatives
-
-data = derivatives.future_price_volume_data(symbol='SBIN', instrument='FUTSTK', from_date='01-06-2023', to_date='10-06-2023')
-
-OR
-
-data = derivatives.price_volume_and_deliverable_position_data(symbol='BANKNIFTY', instrument='FUTIDX', period='1M')
-
-Note: instrument type ( future index = FUTIDX, future stocks = FUTSTK, option index = OPTIDX, option stocks = OPTSTK)
-
-More functions will be available in future releases...
-
-### Debt
-
-More functions will be available in future releases...
-
 
 ## How can I contribute?
 There are multiple ways in which you can contribute-
