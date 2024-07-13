@@ -110,11 +110,11 @@ def stock_info(symbol: str):
     return data_dict
 
 
-# if __name__ == '__main__':
-    # data = historical_stock_data(symbol='TCS', from_date='01-01-2004', to_date='01-07-2024')
+if __name__ == '__main__':
+    data = historical_stock_data(symbol='TCS', from_date='01-01-2004', to_date='01-07-2024')
     # data = historical_stock_data(symbol='TCS', period='1W')
     # data = equity_bhav_copy(trade_date='01-07-2024')
     # data = derivative_bhav_copy(trade_date='01-07-2024')
     # data = stock_info(symbol='TCS')
-    # print(data)
-    # print(data.columns)
+    print(data)
+    print(data.columns)

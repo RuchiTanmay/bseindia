@@ -91,7 +91,7 @@ def get_bselib_path():
     Extract bseindia installed path
     """
     mydir = os.getcwd()
-    return mydir.split(r'\bselib', 1)[0]
+    return mydir.split(r'\bseindia', 1)[0]
 
 
 def all_listed_securities():
