@@ -66,7 +66,7 @@ Please write about your projects in blogs, quora answers and other forums, so th
 
 ### Raising issues, bugs, enhancement requests
 
-For quick resolution please raise issues both [here on issue page](https://github.com/RuchiTanmay/bselib/issues). I'll try my best to address the issues quickly on github as and when I get notified, but raising it on stackoverflow will provide you access to a larger group and someone else might solve your problem before I do.
+For quick resolution please raise issues both [here on issue page](https://github.com/RuchiTanmay/bseindia/issues). I'll try my best to address the issues quickly on github as and when I get notified, but raising it on stackoverflow will provide you access to a larger group and someone else might solve your problem before I do.
 
 ### Submit patches
 
