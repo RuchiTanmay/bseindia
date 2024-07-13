@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name='bselib',
+    name='bseindia',
     packages=setuptools.find_packages(),
     version='0.1',
     include_package_data=True,
@@ -12,7 +12,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown", author='RuchiTanmay',
     author_email='ruchitanmay@gmail.com',
-    url='https://github.com/RuchiTanmay/bselib',
+    url='https://github.com/RuchiTanmay/bseindia',
     install_requires=['requests', 'pandas', 'requests'],
     keywords=['bseindia', 'bse', 'python', 'sdk', 'trading', 'stock markets'],
     classifiers=[

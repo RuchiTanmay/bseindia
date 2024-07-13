@@ -1,4 +1,4 @@
-# BSElib 0.1
+# bseindia 0.1
 
 Python Library to get publicly available data on new BSE india website.
 
@@ -19,15 +19,15 @@ For Windows systems you can install Anaconda, this will cover many dependencies 
 ## Installation
 Fresh installation 
 
-```$pip install bselib```
+```$pip install bseindia```
 
 Upgrade
 
-```$pip install bselib --upgrade```
+```$pip install bseindia --upgrade```
 
 ## Function list
 
-### bselib
+### bseindia
 * trading_holiday_calendar
 * historical_stock_data
 * equity_bhav_copy
@@ -36,22 +36,22 @@ Upgrade
 
 Example :
 
-import bselib
+import bseindia
 
-data = bselib.trading_holiday_calendar()
+data = bseindia.trading_holiday_calendar()
 
 
 Example :
 
-data = bselib.get_historical_stock_data(symbol='SBIN', from_date='01-06-2023', to_date='10-06-2023')
+data = bseindia.get_historical_stock_data(symbol='SBIN', from_date='01-06-2023', to_date='10-06-2023')
                                             
 OR
 
-data = bselib.get_historical_stock_data(symbol='SBIN', period='1M')
+data = bseindia.get_historical_stock_data(symbol='SBIN', period='1M')
 
 Example :
 
-data = bselib.equity_bhav_copy(trade_date='01-07-2024')
+data = bseindia.equity_bhav_copy(trade_date='01-07-2024')
 
 More functions will be available in future releases...
 

@@ -3,9 +3,9 @@ import datetime as dt
 import requests
 import ast
 from io import BytesIO
-from bselib.logger import *
-from bselib.libutil import *
-from bselib.constants import *
+from bseindia.logger import *
+from bseindia.libutil import *
+from bseindia.constants import *
 
 logger = mylogger(logging.getLogger(__name__))
 

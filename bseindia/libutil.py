@@ -1,10 +1,10 @@
 import os
 from datetime import datetime, timedelta, date
-from bselib.logger import *
+from bseindia.logger import *
 import numpy as np
 from dateutil.relativedelta import relativedelta
 import pandas as pd
-from bselib.constants import *
+from bseindia.constants import *
 
 logger = mylogger(logging.getLogger(__name__))
 
@@ -88,7 +88,7 @@ def convert_date_format(date_str, in_format, out_format):
 
 def get_bselib_path():
     """
-    Extract bselib installed path
+    Extract bseindia installed path
     """
     mydir = os.getcwd()
     return mydir.split(r'\bselib', 1)[0]
@@ -100,7 +100,7 @@ def all_listed_securities():
     :return: DataFrame of all listed securities
     """
     logger.info('Get all securities as of JULY-2024')
-    path = get_bselib_path() + "\\bselib\\bselib\\bse_security_list.csv"
+    path = get_bselib_path() + "\\bseindia\\bseindia\\bse_security_list.csv"
     data_df = pd.read_csv(path, delimiter=',')
     return data_df
 
