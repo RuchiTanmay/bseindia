@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name='bselib',
+    name='bseindia',
     packages=setuptools.find_packages(),
     version='0.1',
     include_package_data=True,
