@@ -1,7 +1,6 @@
 import pandas as pd
 import datetime as dt
 import requests
-import ast
 from io import BytesIO
 from bseindia.logger import *
 from bseindia.libutil import *
@@ -23,8 +22,8 @@ def historical_stock_data(symbol: str, from_date: str = None, to_date: str = Non
     """
     validate_date_param(from_date, to_date, period)
     from_date, to_date = derive_from_and_to_date(from_date=from_date, to_date=to_date, period=period)
-    from_date = datetime.strptime(from_date, dd_mm_yyyy)
-    to_date = datetime.strptime(to_date, dd_mm_yyyy)
+    from_date = dt.datetime.strptime(from_date, dd_mm_yyyy)
+    to_date = dt.datetime.strptime(to_date, dd_mm_yyyy)
     end_date = to_date.strftime(dd_mm_yyyy)
     start_date = from_date.strftime(dd_mm_yyyy)
     data_df = get_historical_stock_data(symbol=symbol, from_date=start_date, to_date=end_date)
@@ -57,7 +56,7 @@ def equity_bhav_copy(trade_date: str):
     :param trade_date:
     :return: pandas dataframe
     """
-    trade_date = datetime.strptime(trade_date, dd_mm_yyyy)
+    trade_date = dt.datetime.strptime(trade_date, dd_mm_yyyy)
     _url = 'https://www.bseindia.com/download/BhavCopy/Equity/BhavCopy_BSE_CM_0_0_0_'
     _payload = f"{str(trade_date.strftime('%Y%m%d'))}_F_0000.CSV"
     try:
@@ -77,7 +76,7 @@ def derivative_bhav_copy(trade_date: str):
     :param trade_date:
     :return: pandas dataframe
     """
-    trade_date = datetime.strptime(trade_date, dd_mm_yyyy)
+    trade_date = dt.datetime.strptime(trade_date, dd_mm_yyyy)
     _url = 'https://www.bseindia.com/download/Bhavcopy/Derivative/BhavCopy_BSE_FO_0_0_0_'
     _payload = f"{str(trade_date.strftime('%Y%m%d'))}_F_0000.CSV"
     try:
@@ -103,8 +102,7 @@ def stock_info(symbol: str):
         data_obj = requests.request("GET", _url, headers=header)
         if data_obj.status_code != 200:
             raise NSEdataNotFound(f" bse stock information is not available for {symbol}")
-        data_str = data_obj.text
-        data_dict = ast.literal_eval(data_str)
+        data_dict = data_obj.json()
     except Exception as e:
         raise NSEdataNotFound(f" Resource not available please try after 10 minutes: {e}")
     return data_dict
