@@ -5,6 +5,7 @@
 * Initial structure of the library published with initial functions.
   * trading_holiday_calendar
   * historical_stock_data
+  * client_categorywise_turnover
   * equity_bhav_copy
   * derivative_bhav_copy
   * stock_info

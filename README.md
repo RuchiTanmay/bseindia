@@ -30,6 +30,7 @@ Upgrade
 ### bseindia
 * trading_holiday_calendar
 * historical_stock_data
+* client_categorywise_turnover
 * equity_bhav_copy
 * derivative_bhav_copy
 * stock_info
@@ -48,6 +49,14 @@ data = bseindia.get_historical_stock_data(symbol='SBIN', from_date='01-06-2023',
 OR
 
 data = bseindia.get_historical_stock_data(symbol='SBIN', period='1M')
+
+Example :
+
+data = bseindia.client_categorywise_turnover(from_date='01-12-2004', to_date='17-04-2026')
+
+OR
+
+data = bseindia.client_categorywise_turnover(segment='M')
 
 Example :
 
