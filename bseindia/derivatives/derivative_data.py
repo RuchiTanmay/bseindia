@@ -30,8 +30,8 @@ def derivative_bhav_copy(trade_date: str):
     return bhav_df
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
     # df_index, df_equity = market_summary()
     # print(df_index, df_equity)
-    data = derivative_bhav_copy(trade_date='01-07-2024')
-    print(data)
+    # data = derivative_bhav_copy(trade_date='01-07-2024')
+    # print(data)
