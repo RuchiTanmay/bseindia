@@ -1,8 +1,11 @@
 # created by virtualenv automatically
 venv/
+.venv/
 __pycache__/
 *.xml
 build/
 dist/
 .idea/
-
+.claude/
+wip.py
+pyvenv.cfg
