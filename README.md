@@ -1,4 +1,4 @@
-# bseindia 0.1
+# bseindia 1.0.0
 
 Python Library to get publicly available data on new BSE india website.
 
@@ -27,12 +27,23 @@ Upgrade
 
 ## Function list
 
-### bseindia
+### equity
 * trading_holiday_calendar
 * historical_stock_data
 * equity_bhav_copy
+* equity_turnover
+* equity_segment_history
+* category_wise_turnover
+* market_cap
+* market_capitalisation
+* top_market_cap
+* gross_delivery
+* bulk_deal_as_on_today
+* block_deal_as_on_today
+
+### derivatives
+* market_summary
 * derivative_bhav_copy
-* stock_info
 
 Example :
 
@@ -43,7 +54,7 @@ data = bseindia.trading_holiday_calendar()
 
 Example :
 
-data = bseindia.get_historical_stock_data(symbol='SBIN', from_date='01-06-2023', to_date='10-06-2023')
+data = bseindia.equity.get_historical_stock_data(symbol='SBIN', from_date='01-06-2023', to_date='10-06-2023')
                                             
 OR
 
@@ -51,7 +62,7 @@ data = bseindia.get_historical_stock_data(symbol='SBIN', period='1M')
 
 Example :
 
-data = bseindia.equity_bhav_copy(trade_date='01-07-2024')
+data = bseindia.equity.equity_bhav_copy(trade_date='01-07-2024')
 
 More functions will be available in future releases...
 

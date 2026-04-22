@@ -20,15 +20,12 @@ SMART_SEARCH_URL = "https://api.bseindia.com/BseIndiaAPI/api/ListScripSmartSearc
 TRADING_HOLIDAY_URL = "https://www.bseindia.com/static/markets/marketinfo/listholi.aspx/1000"
 
 header = {
-    "Connection": "keep-alive",
-    "Cache-Control": "max-age=0",
-    "DNT": "1",
-    "Upgrade-Insecure-Requests": "1",
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
-                  "Chrome/111.0.0.0 Safari/537.36",
-    "Sec-Fetch-User": "?1", "Accept": "*/*", "Sec-Fetch-Site": "none", "Sec-Fetch-Mode": "navigate",
-    "Accept-Encoding": "gzip, deflate, br", "Accept-Language": "en-US,en;q=0.9,hi;q=0.8",
-    "Referer": "https://www.bseindia.com/"
+        "User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                       "AppleWebKit/537.36 (KHTML, like Gecko) "
+                       "Chrome/120.0.0.0 Safari/537.36"),
+        "Referer": "https://www.bseindia.com/",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.9",
     }
 
 
@@ -42,6 +39,17 @@ class CalenderNotFound(Exception):
 class NSEdataNotFound(Exception):
     def __init__(self, message):
         super(NSEdataNotFound, self).__init__(message)
+
+
+def get_custom_header(referer: str = "https://www.bseindia.com/", origin: str = "https://www.bseindia.com/"):
+    return {
+            "User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                           "AppleWebKit/537.36 (KHTML, like Gecko) "
+                           "Chrome/120.0.0.0 Safari/537.36"),
+            "Accept": "application/json, text/plain, */*",
+            "Referer": referer,
+            "Origin": origin,
+            "Accept-Language": "en-US,en;q=0.9"}
 
 
 def validate_date_param(from_date: str, to_date: str, period: str):
@@ -60,6 +68,15 @@ def validate_date_param(from_date: str, to_date: str, period: str):
     except Exception as e:
         print(e)
         raise ValueError(f'either or both from_date = {from_date} || to_date = {to_date} are not valid value')
+
+
+def bse_urlfetch(url, in_header=None):
+    with requests.Session() as s:
+        s.headers.update(header if not in_header else in_header)
+        s.get("https://www.bseindia.com/", timeout=30)   # warm cookies
+        r = s.get(url, timeout=30)
+        r.raise_for_status()
+    return r
 
 
 def derive_from_and_to_date(from_date: str = None, to_date: str = None, period: str = None):
@@ -290,6 +307,17 @@ def trading_holiday_calendar(year: int = None):
             calendar_df = calendar_df[parsed_date.dt.year == int(year)].reset_index(drop=True)
         return calendar_df
     raise CalenderNotFound('Unable to parse BSE trading holiday calendar')
+
+
+def parse_date(d):
+    if isinstance(d, datetime):
+        return d
+    for f in ("%d-%m-%Y", "%d/%m/%Y", "%Y-%m-%d", "%d%m%Y"):
+        try:
+            return datetime.strptime(d, f)
+        except ValueError:
+            continue
+    raise ValueError(f"Unrecognized date: {d!r}")
 
 
 # if __name__ == '__main__':
