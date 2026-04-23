@@ -61,3 +61,22 @@ def get_bhav_copy(trade_date: str):
     except Exception as e:
         raise NSEdataNotFound(f" Resource not available MSG: {e}")
     return data_obj.content
+
+
+def get_investors_categorywise_turnover() -> pd.DataFrame:
+    _url = "https://www.bseindia.com/markets/Derivatives/DeriReports/InvestorCategorywiseTurnover.aspx"
+    r = bse_urlfetch(_url)
+    all_dfs = pd.read_html(StringIO(r.text))
+    candidates = [
+        df for df in all_dfs
+        if any("year" in str(c).lower() for c in df.columns)
+        or any("year" in str(v).lower() for v in df.iloc[0].values)
+    ] or all_dfs
+    df = max(candidates, key=lambda x: x.shape[0] * x.shape[1])
+    if not any("year" in str(c).lower() for c in df.columns):
+        df.columns = df.iloc[0]
+        df = df.iloc[1:].reset_index(drop=True)
+    if isinstance(df.columns, pd.MultiIndex):
+        df.columns = [" ".join(str(c) for c in col).strip() for col in df.columns]
+    df.columns = [str(c).strip() for c in df.columns]
+    return df.reset_index(drop=True)

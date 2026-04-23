@@ -30,8 +30,19 @@ def derivative_bhav_copy(trade_date: str):
     return bhav_df
 
 
-# if __name__ == "__main__":
+def investors_categorywise_turnover() -> pd.DataFrame:
+    """
+    get the investors_categorywise_turnover data from bse
+    :return: panas dataframe
+    """
+    return get_investors_categorywise_turnover()
+
+
+
+
+if __name__ == "__main__":
     # df_index, df_equity = market_summary()
     # print(df_index, df_equity)
     # data = derivative_bhav_copy(trade_date='01-07-2024')
-    # print(data)
+    data = investors_categorywise_turnover()
+    print(data)
