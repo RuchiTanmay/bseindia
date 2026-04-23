@@ -110,7 +110,6 @@ def get_market_cap() -> pd.DataFrame:
         or any("year" in str(v).lower() for v in df.iloc[0].values)
     ] or all_dfs
     df = max(candidates, key=lambda x: x.shape[0] * x.shape[1])
-    # Promote header row if needed
     if not any("year" in str(c).lower() for c in df.columns):
         df.columns = df.iloc[0]
         df = df.iloc[1:].reset_index(drop=True)

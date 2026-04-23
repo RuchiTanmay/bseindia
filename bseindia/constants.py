@@ -7,4 +7,4 @@ mmm_yy = '%b-%y'
 equity_periods = ['1D', '1W', '1M', '3M', '6M', '1Y']
 indices_list = ['NIFTY', 'FINNIFTY', 'BANKNIFTY']
 
-
+index_code = {"BSE SENSEX": 16, "BSE 500": 17, }

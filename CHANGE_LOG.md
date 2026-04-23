@@ -1,6 +1,11 @@
 # CHANGE LOG
 #### All the changes are listed...
 
+### Version: 1.1 [23/04/2026]
+* new function added to equity section.
+  * market_summary
+  * investors_categorywise_turnover
+
 ### Version: 1.0.0 [22/04/2026]
 * Structural changes of the library and new function added to equity section.
   * equity_turnover
